@@ -25,7 +25,7 @@ const socketController = async (socket = new Socket(), io) => {
   socket.on("disconnect", () => {
     console.log("[disconnect]");
     chatMensajes.desconectarUsuarios(usuario.id);
-    // io.emit("usuarios-activos", chatMensajes.usuarioArr); probablemente innecesario
+    io.emit("usuarios-activos", chatMensajes.usuarioArr);
   });
 };
 
