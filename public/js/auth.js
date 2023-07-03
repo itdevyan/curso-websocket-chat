@@ -1,6 +1,6 @@
 const miFormulario = document.querySelector("form");
 
-const url = "http://localhost:8080/api/auth";
+const url = "https://curso-websocket-chat-production.up.railway.app/api/auth";
 
 miFormulario.addEventListener("submit", (evento) => {
   evento.preventDefault(); // Evita refresh de navegador
