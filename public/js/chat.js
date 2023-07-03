@@ -1,4 +1,4 @@
-const url = "http://localhost:8080/api/auth";
+const url = "https://curso-websocket-chat-production.up.railway.app/api/auth";
 let usuario = null;
 let socketServer = null;
 
