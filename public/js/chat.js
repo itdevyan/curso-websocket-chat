@@ -43,12 +43,13 @@ const conectarSocket = async () => {
     console.log("Socket offline");
   });
 
-  socketServer.on("recibir-mensaje", () => {
-    // TODO:
+  socketServer.on("recibir-mensajes", (payload) => {
+    // Otra forma de enviar
+    dibujarMensajes(payload);
   });
   socketServer.on("usuarios-activos", dibujarUsuarios); // Como es un solo argumento, se manda por referencia y se puede acortar
-  socketServer.on("mensaje-privado", () => {
-    // TODO:
+  socketServer.on("mensaje-privado", (payload) => {
+    console.log("Privado:", payload);
   });
 };
 
@@ -68,6 +69,40 @@ const dibujarUsuarios = (usuarios = []) => {
 
   ulUsuarios.innerHTML = usersHtml;
 };
+
+const dibujarMensajes = (mensajes = []) => {
+  let mensajesHtml = "";
+
+  mensajes.forEach(({ nombre, mensaje }) => {
+    mensajesHtml += `
+      <li>
+        <p>
+          <h5 class="text-success">${nombre}</h5>
+          <span">${mensaje}</span>
+        </p>
+      </li>
+    `;
+  });
+
+  ulMensajes.innerHTML = mensajesHtml;
+};
+
+txtMensaje.addEventListener("keyup", ({ keyCode }) => {
+  const uid = txtUid.value;
+  const mensaje = txtMensaje.value;
+
+  if (keyCode !== 13) {
+    return;
+  }
+
+  // Debe tener al menos un caracter
+  if (mensaje.length === 0) {
+    return;
+  }
+
+  socketServer.emit("enviar-mensaje", { uid, mensaje }); // idealmente mandarlo en un objeto
+  txtMensaje.value = "";
+});
 
 const main = async () => {
   await validarJWT();
